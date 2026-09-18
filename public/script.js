@@ -5,10 +5,33 @@ const submitButton = form.querySelector('button[type="submit"]');
 const themeToggle = document.getElementById("theme-toggle");
 const themeIcon = themeToggle.querySelector("span");
 const themeLabel = themeToggle.querySelector(".theme-label");
+const chatLauncher = document.getElementById("chat-launcher");
+const chatPanel = document.getElementById("chat-panel");
+const chatClose = document.getElementById("chat-close");
 
 const conversation = [];
 
 applyTheme(localStorage.getItem("chat-theme") || "light");
+
+chatLauncher.addEventListener("click", () => {
+  const isOpen = chatPanel.classList.toggle("is-open");
+  chatPanel.setAttribute("aria-hidden", String(!isOpen));
+  chatLauncher.setAttribute("aria-expanded", String(isOpen));
+  chatLauncher.classList.toggle("is-open", isOpen);
+
+  if (isOpen) input.focus();
+});
+
+chatClose.addEventListener("click", () => {
+  chatPanel.classList.remove("is-open");
+  chatPanel.setAttribute("aria-hidden", "true");
+  chatLauncher.setAttribute("aria-expanded", "false");
+  chatLauncher.classList.remove("is-open");
+});
+
+document.getElementById("hero-chat-button").addEventListener("click", () => {
+  chatLauncher.click();
+});
 
 themeToggle.addEventListener("click", () => {
   const nextTheme = document.body.dataset.theme === "dark" ? "light" : "dark";
@@ -39,7 +62,11 @@ form.addEventListener("submit", async (event) => {
     });
 
     if (!response.ok) {
-      throw new Error(`Request failed with status ${response.status}`);
+      const requestError = new Error(
+        `Request failed with status ${response.status}`,
+      );
+      requestError.status = response.status;
+      throw requestError;
     }
 
     const data = await response.json();
@@ -54,7 +81,13 @@ form.addEventListener("submit", async (event) => {
     conversation.push({ role: "model", text: result });
   } catch (error) {
     console.error("Chat request failed:", error);
-    setMessageText(thinkingMessage, "Failed to get response from server.");
+
+    const message =
+      error.status === 429
+        ? "Rama sedang banyak membantu siswa lain. Coba lagi sebentar, ya."
+        : "Maaf, Rama sedang mengalami gangguan sementara. Silakan coba lagi beberapa saat lagi.";
+
+    setMessageText(thinkingMessage, message);
   } finally {
     setLoading(false);
     input.focus();

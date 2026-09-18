@@ -3,13 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gemini AI Chatbot</title>
+    <title>Rama | AI Student Assistant</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <header class="chat-header">
-        <h1>Gemini AI Chatbot</h1>
+    <main class="landing-page">
+      <nav class="site-nav" aria-label="Navigasi utama">
+        <a class="brand" href="#top" aria-label="Rama AI Student Assistant">
+          <span class="brand-mark">R</span>
+          <span>Rama<span class="brand-accent">.</span></span>
+        </a>
         <button
           type="button"
           id="theme-toggle"
@@ -19,19 +22,116 @@
           <span aria-hidden="true">🌙</span>
           <span class="theme-label">Dark mode</span>
         </button>
+      </nav>
+
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="status-dot"></span> AI Student Assistant
+          </p>
+          <h1>Belajar lebih jelas.<br /><em>Melangkah lebih jauh.</em></h1>
+          <p class="hero-description">
+            Rama membantu kamu memahami materi, menyusun ide, dan menemukan cara
+            belajar yang lebih efektif, kapan pun kamu membutuhkannya.
+          </p>
+          <button type="button" class="hero-cta" id="hero-chat-button">
+            Mulai percakapan <span aria-hidden="true">↗</span>
+          </button>
+          <p class="hero-note">
+            Tanya apa saja seputar belajar dan pendidikan.
+          </p>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="assistant-card">
+            <div class="assistant-card-top">
+              <span class="mini-avatar">R</span><span>Rama AI</span
+              ><span class="online-dot"></span>
+            </div>
+            <div class="preview-bubble">Halo! Mau belajar apa hari ini?</div>
+            <div class="preview-bubble preview-bubble-user">
+              Aku mau memahami kalkulus.
+            </div>
+            <div class="preview-bubble">
+              Mari kita pecah menjadi langkah kecil.
+            </div>
+          </div>
+          <span class="floating-word word-one">FOCUS</span>
+          <span class="floating-word word-two">GROW</span>
+        </div>
+      </section>
+
+      <section class="benefits" aria-label="Fitur utama">
+        <div class="benefit-item">
+          <span class="benefit-number">01</span
+          ><strong>Jelaskan dengan sederhana</strong
+          ><span>Materi rumit jadi lebih mudah dipahami.</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-number">02</span><strong>Belajar bertahap</strong
+          ><span>Bangun pemahaman dari dasar hingga mahir.</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-number">03</span
+          ><strong>Selalu siap membantu</strong
+          ><span>Teman belajar yang tersedia kapan saja.</span>
+        </div>
+      </section>
+    </main>
+
+    <button
+      type="button"
+      class="chat-launcher"
+      id="chat-launcher"
+      aria-label="Buka chat dengan Rama"
+      aria-expanded="false"
+    >
+      <span class="launcher-icon" aria-hidden="true">✦</span>
+      <span class="launcher-label">Chat dengan Rama</span>
+    </button>
+
+    <section
+      class="chat-panel"
+      id="chat-panel"
+      aria-label="Chat dengan Rama"
+      aria-hidden="true"
+    >
+      <header class="chat-header">
+        <div class="chat-identity">
+          <span class="chat-avatar">R</span>
+          <div>
+            <strong>Rama</strong
+            ><small
+              ><span class="online-dot"></span> AI Student Assistant</small
+            >
+          </div>
+        </div>
+        <button
+          type="button"
+          class="chat-close"
+          id="chat-close"
+          aria-label="Tutup chat"
+        >
+          ×
+        </button>
       </header>
-      <div id="chat-box" class="chat-box"></div>
+      <div id="chat-box" class="chat-box">
+        <div class="message bot welcome-message">
+          Halo! Aku Rama. Apa yang sedang kamu pelajari hari ini?
+        </div>
+      </div>
       <form id="chat-form">
         <input
           type="text"
           id="user-input"
-          placeholder="Type your message..."
+          placeholder="Tulis pertanyaanmu..."
           autocomplete="off"
           required
         />
-        <button type="submit">Send</button>
+        <button type="submit" aria-label="Kirim pesan">↑</button>
       </form>
-    </div>
+    </section>
     <script src="script.js"></script>
   </body>
 </html>

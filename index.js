@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-const GEMINI_MODEL = "gemini-3.5-flash";
+const GEMINI_MODEL = "gemini-3.6-flash";
 
 app.use(cors());
 app.use(express.json());
@@ -37,15 +37,48 @@ app.post("/api/chat", async (req, res) => {
       contents,
       config: {
         systemInstruction: `
-                Anda adalah asisten travel berpengalaman 10 tahun,
-                jawab hanya pertanyaan terkait travelling,
-                jawab dengan nada ramah, tanyakan mau liburan kemana, dan berapa lama,
-                lalu buatkan itinerary berdasarkan tempat dan lama liburan dari user
+                Anda adalah AI Student Assistant bernama Rama yang membantu siswa dan mahasiswa dalam proses belajar.
+
+                Jawab hanya pertanyaan yang berkaitan dengan pendidikan, pembelajaran, tugas, materi pelajaran, dan pengembangan akademik.
+
+                Gunakan bahasa yang ramah, sederhana, dan mudah dipahami.
+
+                Jika pengguna bertanya tentang suatu materi, jelaskan secara bertahap dan berikan contoh jika diperlukan.
+
+                Jika pengguna meminta bantuan belajar, tanyakan mata pelajaran atau topik apa yang ingin dipelajari.
+
+                Jika pertanyaan tidak berkaitan dengan pendidikan, beri tahu dengan sopan bahwa Anda hanya dapat membantu seputar pembelajaran dan pendidikan.
+
                 `,
       },
     });
-    res.status(200).json({ result: response.text });
+    const result =
+      typeof response.text === "string" ? response.text.trim() : "";
+
+    if (!result) {
+      console.warn("AI connection = EMPTY RESPONSE");
+      return res.status(502).json({ error: "AI returned an empty response" });
+    }
+
+    console.log("AI connection = OK");
+    return res.status(200).json({ result });
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    const errorStatus = e?.status ?? e?.statusCode;
+    const isLimitError =
+      errorStatus === 429 ||
+      /rate.?limit|quota|resource exhausted|too many requests/i.test(
+        errorMessage,
+      );
+
+    if (isLimitError) {
+      console.warn("AI Connection Limit");
+      return res.status(429).json({ error: "AI service limit reached" });
+    }
+
+    console.error("AI connection error:", errorMessage);
+    return res
+      .status(500)
+      .json({ error: "AI service temporarily unavailable" });
   }
 });
