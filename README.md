@@ -4,6 +4,9 @@ Rama adalah chatbot AI untuk membantu siswa dan mahasiswa dalam proses belajar. 
 
 Rama dapat membantu menjelaskan materi, menyusun ide belajar, memberi contoh, dan memandu pengguna memahami topik secara bertahap. Rama hanya melayani pertanyaan yang berkaitan dengan pendidikan dan pembelajaran.
 
+## Screenshot
+<img width="1439" height="795" alt="Screenshot 2026-09-18 at 22 04 42" src="https://github.com/user-attachments/assets/4d9dc0c1-4a27-4cde-b860-3a5c1c2e9775" />
+
 ## Fitur
 
 - Landing page untuk AI Student Assistant.
